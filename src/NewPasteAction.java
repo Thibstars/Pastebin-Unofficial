@@ -26,7 +26,6 @@ public class NewPasteAction extends AnAction {
         Project project = e.getData(PlatformDataKeys.PROJECT);
 
         //Get the filename of the currently opened file
-        //TODO use as placeholder for title
         Document currentDoc = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument();
         VirtualFile currentFile = FileDocumentManager.getInstance().getFile(currentDoc);
         String fileName = currentFile.getPath().substring(currentFile.getPath().lastIndexOf('/') + 1);
