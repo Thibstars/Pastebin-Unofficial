@@ -3,6 +3,11 @@ import com.besaba.revonline.pastebinapi.paste.PasteBuilder;
 import com.besaba.revonline.pastebinapi.paste.PasteExpire;
 import com.besaba.revonline.pastebinapi.paste.PasteVisiblity;
 import com.besaba.revonline.pastebinapi.response.Response;
+import com.intellij.codeInsight.hint.HintManager;
+import com.intellij.codeInsight.hint.HintManagerImpl;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -36,6 +41,13 @@ public class NewPasteAction extends AnAction {
         String raw = "";
         if (e.getData(LangDataKeys.EDITOR).getDocument() != null) raw = e.getData(LangDataKeys.EDITOR).getDocument().getText();
 
+
+        /*final Response<String> userLoginKeyResponse = Constants.PASTEBIN.login("" *//*user name*//*, "" *//*password*//*);
+
+        if (userLoginKeyResponse.hasError()) {
+            LOGGER.log(Level.INFO, "An error occurred while logging into Pastebin: " + userLoginKeyResponse.getError());
+        }*/
+
         //Create paste
         final PasteBuilder pasteBuilder = Constants.FACTORY.createPaste();
         //Title
@@ -53,7 +65,8 @@ public class NewPasteAction extends AnAction {
 
         final Response<String> postResult = Constants.PASTEBIN.post(paste);
         if (postResult.hasError()) {
-            LOGGER.log(Level.INFO, "An error occurred while posting the paste: " + postResult.getError());
-        } else LOGGER.log(Level.INFO, "Paste successfully posted! URL: " + postResult.get());
+            Notifications.Bus.notify(new Notification("Pastebin", "Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR));
+        } else
+            Notifications.Bus.notify(new Notification("Pastebin", "Successful Paste", "Paste successfully posted! URL: " + postResult.get(), NotificationType.INFORMATION));
     }
 }
