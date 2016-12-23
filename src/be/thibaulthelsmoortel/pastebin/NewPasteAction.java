@@ -1,10 +1,12 @@
 package be.thibaulthelsmoortel.pastebin;
 
+import be.thibaulthelsmoortel.pastebin.util.HyperlinkNotificationListener;
 import com.besaba.revonline.pastebinapi.paste.Paste;
 import com.besaba.revonline.pastebinapi.paste.PasteBuilder;
 import com.besaba.revonline.pastebinapi.paste.PasteExpire;
 import com.besaba.revonline.pastebinapi.paste.PasteVisiblity;
 import com.besaba.revonline.pastebinapi.response.Response;
+import com.intellij.ide.BrowserUtil;
 import com.intellij.notification.*;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -15,7 +17,10 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
+import org.jetbrains.annotations.NotNull;
 
+import javax.swing.event.HyperlinkEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 /**
@@ -80,11 +85,18 @@ public class NewPasteAction extends AnAction {
         final Response<String> postResult = Constants.PASTEBIN.post(paste);
         NotificationGroup balloonNotifications = new NotificationGroup("Balloon notifications", NotificationDisplayType.BALLOON, true);
         if (postResult.hasError()) {
-            Notification fail = balloonNotifications.createNotification("Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR, null);
+            Notification fail = balloonNotifications.createNotification("<html>Error Posting Paste", "An error occurred while posting the <a href=\"" + postResult.get() + "\" target=\"blank\">paste</a> ", NotificationType.ERROR, (notification, hyperlinkEvent) -> {
+                if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    BrowserUtil.browse(hyperlinkEvent.getURL());
+                }
+            });
             Notifications.Bus.notify(fail, project);
         } else {
-            Notification success = balloonNotifications.createNotification("Successful Paste", "Paste successfully posted! URL: " + postResult.get(), NotificationType.INFORMATION, null);
-            //Notification success = balloonNotifications.createNotification("Successful Paste", "<a href=\"" + postResult.get() + "\">Paste</a> successfully posted!", NotificationType.INFORMATION, null);
+            Notification success = balloonNotifications.createNotification("<html>Successful Paste", "<a href=\"" + postResult.get() + "\" target=\"blank\">Paste</a> successfully posted!</html>", NotificationType.INFORMATION, (notification, hyperlinkEvent) -> {
+                if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    BrowserUtil.browse(hyperlinkEvent.getURL());
+                }
+            });
             Notifications.Bus.notify(success, project);
         }
     }
