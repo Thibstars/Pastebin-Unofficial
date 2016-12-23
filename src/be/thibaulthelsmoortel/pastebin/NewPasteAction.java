@@ -80,12 +80,11 @@ public class NewPasteAction extends AnAction {
         final Response<String> postResult = Constants.PASTEBIN.post(paste);
         NotificationGroup balloonNotifications = new NotificationGroup("Balloon notifications", NotificationDisplayType.BALLOON, true);
         if (postResult.hasError()) {
-            //Notifications.Bus.notify(new Notification("Pastebin", "Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR));
             Notification fail = balloonNotifications.createNotification("Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR, null);
             Notifications.Bus.notify(fail, project);
         } else {
-            //Notification success = balloonNotifications.createNotification("Successful Paste", "Paste successfully posted! URL: " + postResult.get(), NotificationType.INFORMATION, null);
-            Notification success = balloonNotifications.createNotification("Successful Paste", "<a href=\"" + postResult.get() + "\">Paste</a> successfully posted!", NotificationType.INFORMATION, null);
+            Notification success = balloonNotifications.createNotification("Successful Paste", "Paste successfully posted! URL: " + postResult.get(), NotificationType.INFORMATION, null);
+            //Notification success = balloonNotifications.createNotification("Successful Paste", "<a href=\"" + postResult.get() + "\">Paste</a> successfully posted!", NotificationType.INFORMATION, null);
             Notifications.Bus.notify(success, project);
         }
     }
