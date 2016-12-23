@@ -1,6 +1,5 @@
 package be.thibaulthelsmoortel.pastebin;
 
-import be.thibaulthelsmoortel.pastebin.util.HyperlinkNotificationListener;
 import com.besaba.revonline.pastebinapi.paste.Paste;
 import com.besaba.revonline.pastebinapi.paste.PasteBuilder;
 import com.besaba.revonline.pastebinapi.paste.PasteExpire;
@@ -17,10 +16,8 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.event.HyperlinkEvent;
-import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
 /**
