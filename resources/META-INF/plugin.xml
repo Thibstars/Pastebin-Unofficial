@@ -27,7 +27,7 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="NewPaste" class="NewPasteAction" text="New Paste" description="Create a new paste">
+        <action id="NewPaste" class="be.thibaulthelsmoortel.pastebin.NewPasteAction" text="New Paste" description="Create a new paste">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>

@@ -1,3 +1,5 @@
+package be.thibaulthelsmoortel.pastebin;
+
 import com.besaba.revonline.pastebinapi.Pastebin;
 import com.besaba.revonline.pastebinapi.impl.factory.PastebinFactory;
 

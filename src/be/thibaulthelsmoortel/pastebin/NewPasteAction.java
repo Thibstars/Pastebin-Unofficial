@@ -1,14 +1,13 @@
+package be.thibaulthelsmoortel.pastebin;
+
 import com.besaba.revonline.pastebinapi.paste.Paste;
 import com.besaba.revonline.pastebinapi.paste.PasteBuilder;
 import com.besaba.revonline.pastebinapi.paste.PasteExpire;
 import com.besaba.revonline.pastebinapi.paste.PasteVisiblity;
 import com.besaba.revonline.pastebinapi.response.Response;
-import com.intellij.codeInsight.hint.HintManager;
-import com.intellij.codeInsight.hint.HintManagerImpl;
 import com.intellij.notification.*;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
@@ -17,7 +16,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class NewPasteAction extends AnAction {
@@ -41,7 +39,7 @@ public class NewPasteAction extends AnAction {
         if (currentDoc != null) raw = currentDoc.getText();
 
 
-        /*final Response<String> userLoginKeyResponse = Constants.PASTEBIN.login("" *//*user name*//*, "" *//*password*//*);
+        /*final Response<String> userLoginKeyResponse = be.thibaulthelsmoortel.pastebin.Constants.PASTEBIN.login("" *//*user name*//*, "" *//*password*//*);
 
         if (userLoginKeyResponse.hasError()) {
             LOGGER.log(Level.INFO, "An error occurred while logging into Pastebin: " + userLoginKeyResponse.getError());
