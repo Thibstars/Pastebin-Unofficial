@@ -5,9 +5,7 @@ import com.besaba.revonline.pastebinapi.paste.PasteVisiblity;
 import com.besaba.revonline.pastebinapi.response.Response;
 import com.intellij.codeInsight.hint.HintManager;
 import com.intellij.codeInsight.hint.HintManagerImpl;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
+import com.intellij.notification.*;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -33,13 +31,14 @@ public class NewPasteAction extends AnAction {
         //Get the filename of the currently opened file
         Document currentDoc = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument();
         VirtualFile currentFile = FileDocumentManager.getInstance().getFile(currentDoc);
-        String fileName = currentFile.getPath().substring(currentFile.getPath().lastIndexOf('/') + 1);
+        //String fileName = currentFile.getPath().substring(currentFile.getPath().lastIndexOf('/') + 1);
+        String fileName = currentFile.getName();
 
         //Get paste data
-        String title = Messages.showInputDialog(project, "Paste Title", "Input Your Paste Title", null, fileName, null);
+        String title =  Messages.showInputDialog(project, "Paste Title", "Input Your Paste Title", null, fileName, null);
         //Get the text in the currently opened editor
         String raw = "";
-        if (e.getData(LangDataKeys.EDITOR).getDocument() != null) raw = e.getData(LangDataKeys.EDITOR).getDocument().getText();
+        if (currentDoc != null) raw = currentDoc.getText();
 
 
         /*final Response<String> userLoginKeyResponse = Constants.PASTEBIN.login("" *//*user name*//*, "" *//*password*//*);
@@ -64,9 +63,15 @@ public class NewPasteAction extends AnAction {
         final Paste paste = pasteBuilder.build();
 
         final Response<String> postResult = Constants.PASTEBIN.post(paste);
+        NotificationGroup balloonNotifications = new NotificationGroup("Balloon notifications", NotificationDisplayType.BALLOON, true);
         if (postResult.hasError()) {
-            Notifications.Bus.notify(new Notification("Pastebin", "Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR));
-        } else
-            Notifications.Bus.notify(new Notification("Pastebin", "Successful Paste", "Paste successfully posted! URL: " + postResult.get(), NotificationType.INFORMATION));
+            //Notifications.Bus.notify(new Notification("Pastebin", "Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR));
+            Notification fail = balloonNotifications.createNotification("Error Posting Paste", "An error occurred while posting the paste: " + postResult.getError(), NotificationType.ERROR, null);
+            Notifications.Bus.notify(fail, project);
+        } else {
+            //Notification success = balloonNotifications.createNotification("Successful Paste", "Paste successfully posted! URL: " + postResult.get(), NotificationType.INFORMATION, null);
+            Notification success = balloonNotifications.createNotification("Successful Paste", "<a href=\"" + postResult.get() + "\">Paste</a> successfully posted!", NotificationType.INFORMATION, null);
+            Notifications.Bus.notify(success, project);
+        }
     }
 }
