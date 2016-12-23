@@ -27,8 +27,10 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="NewPaste" class="be.thibaulthelsmoortel.pastebin.NewPasteAction" text="New Paste" description="Create a new paste">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        <action id="NewPaste" class="be.thibaulthelsmoortel.pastebin.NewPasteAction"
+                text="New Paste" description="Create a new paste" icon="PluginIcons.PASTEBIN_LOGO_SMALL">
+            <!-- <add-to-group group-id="ToolsMenu" anchor="last"/> -->
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
 

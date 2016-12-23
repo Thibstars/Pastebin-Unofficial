@@ -18,13 +18,19 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 import java.util.logging.Logger;
 
+/**
+ * Class representing the action responsible for paste creation.
+ *
+ * @author Thibault Helsmoortel
+ */
 public class NewPasteAction extends AnAction {
 
     private static final Logger LOGGER = Logger.getLogger(NewPasteAction.class.getSimpleName());
+    private static Project project;
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        Project project = e.getData(PlatformDataKeys.PROJECT);
+        project = e.getData(PlatformDataKeys.PROJECT);
 
         //Get the filename of the currently opened file
         Document currentDoc = FileEditorManager.getInstance(project).getSelectedTextEditor().getDocument();
@@ -45,6 +51,17 @@ public class NewPasteAction extends AnAction {
             LOGGER.log(Level.INFO, "An error occurred while logging into Pastebin: " + userLoginKeyResponse.getError());
         }*/
 
+        createPaste(title, raw);
+    }
+
+    /**
+     * Creates the paste based on specified title and content.
+     * After execution a balloon notification will be shown.
+     *
+     * @param title the paste title
+     * @param raw the paste content
+     */
+    private void createPaste(String title, String raw) {
         //Create paste
         final PasteBuilder pasteBuilder = Constants.FACTORY.createPaste();
         //Title

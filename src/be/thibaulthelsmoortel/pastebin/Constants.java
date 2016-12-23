@@ -4,7 +4,9 @@ import com.besaba.revonline.pastebinapi.Pastebin;
 import com.besaba.revonline.pastebinapi.impl.factory.PastebinFactory;
 
 /**
- * Created by Thibault Helsmoortel on 7/10/2016.
+ * Global constants.
+ *
+ * @author Thibault Helsmoortel
  */
 public class Constants {
 
