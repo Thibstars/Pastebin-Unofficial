@@ -82,18 +82,16 @@ public class NewPasteAction extends AnAction {
         final Response<String> postResult = Constants.PASTEBIN.post(paste);
         NotificationGroup balloonNotifications = new NotificationGroup("Balloon notifications", NotificationDisplayType.BALLOON, true);
         if (postResult.hasError()) {
-            Notification fail = balloonNotifications.createNotification("<html>Error Posting Paste", "An error occurred while posting the <a href=\"" + postResult.get() + "\" target=\"blank\">paste</a> ", NotificationType.ERROR, (notification, hyperlinkEvent) -> {
-                if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    BrowserUtil.browse(hyperlinkEvent.getURL());
-                }
-            });
+            Notification fail =
+                    balloonNotifications.createNotification(
+                            "<html>Error Posting Paste", "An error occurred while posting the <a href=\"" + postResult.get() + "\" target=\"blank\">paste</a> ",
+                            NotificationType.ERROR, new NotificationListener.UrlOpeningListener(true));
             Notifications.Bus.notify(fail, project);
         } else {
-            Notification success = balloonNotifications.createNotification("<html>Successful Paste", "<a href=\"" + postResult.get() + "\" target=\"blank\">Paste</a> successfully posted!</html>", NotificationType.INFORMATION, (notification, hyperlinkEvent) -> {
-                if (hyperlinkEvent.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    BrowserUtil.browse(hyperlinkEvent.getURL());
-                }
-            });
+            Notification success =
+                    balloonNotifications.createNotification(
+                            "<html>Successful Paste", "<a href=\"" + postResult.get() + "\" target=\"blank\">Paste</a> successfully posted!</html>",
+                            NotificationType.INFORMATION, new NotificationListener.UrlOpeningListener(true));
             Notifications.Bus.notify(success, project);
         }
     }
