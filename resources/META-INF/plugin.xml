@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>com.thibaulthelsmoortel.pastebin</id>
     <name>Pastebin Unofficial</name>
-    <version>0.1</version>
+    <version>0.1.1</version>
     <vendor url="http://thibaulthelsmoortel.be">Thibault Helsmoortel</vendor>
 
     <description><![CDATA[
